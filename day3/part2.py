@@ -1,16 +1,19 @@
 import copy
+
+
 def gere_ratio(position, line_set):
-    tmp = (line_set[0][position - 1:position + 2] + '.' + line_set[1][position - 1] + '.' + line_set[1][position + 1] + '.' + line_set[2][position - 1:position + 2])
-    first_num_pos = None
-    second_num_pos = None
+    tmp = (line_set[0][position - 1:position + 2] + '.' + line_set[1][position - 1] + '.' + line_set[1][position + 1]
+           + '.' + line_set[2][position - 1:position + 2])
+    first_num_pos = -1
+    second_num_pos = -1
     num_count = 0
     pos_count = 0
     was_dot = True
     for char in tmp:
-        if (char.isnumeric() and was_dot):
-            if first_num_pos != None:
+        if char.isnumeric() and was_dot:
+            if first_num_pos != -1:
                 second_num_pos = copy.deepcopy(pos_count)
-            if first_num_pos == None:
+            if first_num_pos == -1:
                 first_num_pos = copy.deepcopy(pos_count)
             num_count += 1
             was_dot = False
@@ -23,20 +26,22 @@ def gere_ratio(position, line_set):
     else:
         return 0
 
-def get_num(pos,position ,line_set):
+
+def get_num(pos, position, line_set):
+    line_get_num = ''
     match pos:
         case p if 0 <= p < 3:
-            line = line_set[0]
+            line_get_num = line_set[0]
         case 4:
-            line = line_set[1]
+            line_get_num = line_set[1]
             pos -= 4
         case 6:
-            line = line_set[1]
+            line_get_num = line_set[1]
             pos -= 4
         case p if 8 <= p < 11:
-            line = line_set[2]
+            line_get_num = line_set[2]
             pos -= 8
-    num = line[position - 1 + pos]
+    num = line_get_num[position - 1 + pos]
     left_was_num = True
     right_was_dot = True
     pos_count = 1
@@ -54,6 +59,7 @@ def get_num(pos,position ,line_set):
         pos_count += 1
     return int(num)
 
+
 f = open("data.txt", "r")
 line = ''
 data_set = []
@@ -69,7 +75,7 @@ consecutive_num_count = 0
 for line in data_set[1:(len(data_set)-1)]:
     for character in line:
         if character == '*':
-             total_count += gere_ratio(position_count, data_set[line_count - 1: line_count + 2])
+            total_count += gere_ratio(position_count, data_set[line_count - 1: line_count + 2])
         position_count += 1
     line_count += 1
     position_count = 0
