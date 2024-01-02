@@ -19,8 +19,8 @@ converter = [
            key=lambda x: x[1]),
     sorted([list(map(int, x)) for x in [x.split(' ') for x in tmp[7][1:len(tmp[7])].split('\n')]],
            key=lambda x: x[1])]
-print(converter)
-print(seeds)
+# print(converter)
+# print(seeds)
 t = []
 for i in range(1, len(seeds), 2):
     t.append([seeds[i - 1], seeds[i]])
@@ -57,4 +57,7 @@ for iteration in converter:
         counter += 1
     counter = 0
 seeds.sort()
+print(seeds)
 print(seeds[0])
+
+# 50855035 right 75281324??
