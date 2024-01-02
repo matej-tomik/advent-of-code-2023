@@ -1,4 +1,3 @@
-import copy
 
 
 def gere_ratio(position, line_set):
@@ -12,16 +11,15 @@ def gere_ratio(position, line_set):
     for char in tmp:
         if char.isnumeric() and was_dot:
             if first_num_pos != -1:
-                second_num_pos = copy.deepcopy(pos_count)
+                second_num_pos = pos_count
             if first_num_pos == -1:
-                first_num_pos = copy.deepcopy(pos_count)
+                first_num_pos = pos_count
             num_count += 1
             was_dot = False
         elif not char.isnumeric():
             was_dot = True
         pos_count += 1
     if num_count == 2:
-        print(get_num(first_num_pos, position, line_set), get_num(second_num_pos, position, line_set))
         return get_num(first_num_pos, position, line_set)*get_num(second_num_pos, position, line_set)
     else:
         return 0
@@ -43,19 +41,19 @@ def get_num(pos, position, line_set):
             pos -= 8
     num = line_get_num[position - 1 + pos]
     left_was_num = True
-    right_was_dot = True
+    right_was_num = True
     pos_count = 1
-    while left_was_num or right_was_dot:
+    while left_was_num or right_was_num:
         if left_was_num:
             if line[position - 1 + pos - pos_count].isnumeric():
                 num = line[position - 1 + pos - pos_count] + num
             else:
                 left_was_num = False
-        if right_was_dot:
+        if right_was_num:
             if line[position - 1 + pos + pos_count].isnumeric():
                 num += line[position - 1 + pos + pos_count]
             else:
-                right_was_dot = False
+                right_was_num = False
         pos_count += 1
     return int(num)
 
