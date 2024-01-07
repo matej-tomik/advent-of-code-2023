@@ -1,43 +1,31 @@
+def find_digit(ln: str, directio: int, numbers, my_dist):
+    if numbers:
+        for character in ln[::directio]:
+            if character.isdigit():
+                my_dist.update({character: ln[::directio].index(character)})
+        for num in number:
+            if ln.find(num) != -1:
+                my_dist.update({num: ln[::directio].index(num[::directio])})
+
+
+def get_num(my_dist):
+    tmp = min(my_dist, key=my_dist.get)
+    if tmp in number:
+        return number.index(tmp) + 1
+    else:
+        return tmp
+
+
+number = ('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine')
 with open('input.txt', 'r') as f:
-    numbers = ('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine')
     lines = list(map(str.rstrip, f.readlines()))
-    num_of_line = 0
-    counter = 0
+    total = 0
     for line in lines:
-        counter += 1
-        for character in line:
-            if character.isdigit():
-                first = {character: line.index(character)}
-                break
-        for number in numbers:
-            if line.find(number) != -1:
-                first.update({number: line.index(number)})
-
-        for character in line[::-1]:
-            if character.isdigit():
-                last = {character: line[::-1].index(character)}
-                break
-        for number in numbers:
-            if line.find(number) != -1:
-                last.update({number: line[::-1].index(number[::-1])})
-
-
-        tmp = min(first, key=first.get)
-        if tmp in numbers:
-            left_number = numbers.index(tmp) + 1
-        else:
-            left_number = tmp
-        tmp = min(last, key=last.get)
-        if tmp in numbers:
-            right_number = numbers.index(tmp) + 1
-        else:
-            right_number = tmp
-
-        print(str(left_number) + str(right_number))
-        num_of_line += int(str(left_number) + str(right_number))
-        first.clear()
-        last.clear()
-    print(num_of_line)
-    print(counter)
-
-
+        first: dict = {}
+        last: dict = {}
+        find_digit(line, 1, True, first)
+        find_digit(line, 1, False, first)
+        find_digit(line, -1, True, last)
+        find_digit(line, -1, False, last)
+        total += int(str(get_num(first)) + str(get_num(last)))
+    print(total)
